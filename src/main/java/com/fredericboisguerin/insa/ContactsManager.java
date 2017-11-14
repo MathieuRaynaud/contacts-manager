@@ -13,8 +13,13 @@ public class ContactsManager {
     }
 
     // ********** METHODES **********
-    public void addContact(String name, String email, String phoneNumber) {
-        ContactList.add(new Contact(name, email, phoneNumber));
+    public void addContact(String name, String email, String phoneNumber) throws InvalidContactNameException, InvalidEmailException {
+        if (name==null) throw new InvalidContactNameException();
+        else if (name == "") throw new InvalidContactNameException();
+        else if (!(email.contains("@"))) throw new InvalidEmailException();
+        else
+            ContactList.add(new Contact(name, email, phoneNumber));
+
     }
 
     public void printAllContacts() {
