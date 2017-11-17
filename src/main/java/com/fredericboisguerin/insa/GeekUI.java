@@ -6,7 +6,7 @@ public class GeekUI {
 
     private ContactsManager NosContacts;
 
-    private Scanner sc = new Scanner(System.in);
+
 
     public static void main(String[] args) throws IOException {
         GeekUI myGeekUI = new GeekUI();
@@ -35,6 +35,7 @@ public class GeekUI {
 
     public void ajouterContact() throws IOException{
         try {
+            Scanner sc = new Scanner(System.in);
             String thisName;
             String thisEmail;
             String thisPhoneNumber;
@@ -58,8 +59,8 @@ public class GeekUI {
     }
 
     public void rechercherContact(){
+        Scanner sc = new Scanner(System.in);
         String nm;
-
         System.out.println("**********");
         System.out.println("");
         System.out.println("Menu de recherche d'un contact :");
@@ -74,7 +75,7 @@ public class GeekUI {
     }
 
     public void displayMenu() throws IOException{
-
+        Scanner sc = new Scanner(System.in);
         String str;
         Boolean ok;
         Boolean finished = false;
