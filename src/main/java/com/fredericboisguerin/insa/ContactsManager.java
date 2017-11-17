@@ -1,24 +1,46 @@
 package com.fredericboisguerin.insa;
 
+import com.opencsv.CSVReader;
+
+import java.io.*;
 import java.util.Vector;
+
+
 
 public class ContactsManager {
 
     // ********** ATTRIBUTS **********
     private Vector<Contact> ContactList ;
 
+
     // ********** CONSTRUCTEUR **********
-    public ContactsManager (){
-        this.ContactList = new Vector<Contact>();
+    public ContactsManager () throws IOException{
+        try {
+            this.ContactList = new Vector<Contact>();
+            CSVReader reader = new CSVReader(new FileReader("contacts.csv"));
+            String [] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                this.ContactList.add(new Contact(nextLine[0], nextLine[1], nextLine[2]));
+            }
+        } catch (FileNotFoundException e) {}
     }
 
+
     // ********** METHODES **********
-    public void addContact(String name, String email, String phoneNumber) throws InvalidContactNameException, InvalidEmailException {
+    public void addContact(String name, String email, String phoneNumber) throws InvalidContactNameException, InvalidEmailException, IOException {
+
+        Writer writer = new FileWriter("contacts.csv", true);
+
         if (name==null) throw new InvalidContactNameException();
-        else if (name == "") throw new InvalidContactNameException();
+        else if (name.equals("")) throw new InvalidContactNameException();
         else if (!(email.contains("@"))) throw new InvalidEmailException();
-        else
+        else {
             ContactList.add(new Contact(name, email, phoneNumber));
+            String tmp = name+','+email+','+phoneNumber+"\n";
+            writer.append(tmp);
+        }
+
+        writer.close();
 
     }
 
@@ -50,5 +72,17 @@ public class ContactsManager {
             }
         }
     }
+
+
+
+    /*
+
+    // List<MyBean> beans comes from somewhere earlier in your code.
+     Writer writer = new FileWriter("yourfile.csv");
+     StatefulBeanToCsvBuilder beanToCsv = StatefulBeanToCsvBuilder(writer).build();
+     beanToCsv.write(beans);
+     writer.close();
+
+     */
 
 }
